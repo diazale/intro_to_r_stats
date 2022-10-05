@@ -1,0 +1,108 @@
+---
+title: "R concepts"
+author: "Alex Diaz-Papkovich"
+date: "04/10/2022"
+output: html_document
+---
+
+If you ever want to get rid of a variable or object, use the `rm` command to delete it. To remove everything, use `rm(list=ls())`. Your code will be safe as long as you've saved it, but any variables, data frames, plots, environment objects, etc, will be removed. Libraries/packages that you've loaded will be unloaded --- they will still be installed, but they will not be active and you will have to use `library([package name])` to reload it.
+
+Small tricks:
+* Wrap a command in `()` to output its result in the console, e.g. `(x <- c(1,2,3))` will assign values to `x` and also print it.
+
+We will begin by assigning values to a vector.
+
+```{r Basic variable assignments}
+# The "<-" and "=" operators are equivalent
+# This code creates a vector of numeric variables and prints it
+x <- c(1,2,3)
+print("This is my variable:")
+print(x)
+
+x = c(1,2,3)
+print("This is my variable:")
+print(x)
+```
+
+We will explore the main types of variables:
+
+```{r The multiple types of variables}
+# Numeric
+numeric_vector <- c(1,2,3,4,5)
+print("This is my numeric vector:")
+print(numeric_vector)
+print("")
+
+# Character
+character_vector <- c("one","one","three","four","five")
+print("This is my character vector:")
+print(character_vector)
+print("")
+
+# Logical
+logical_vector <- c(T,F,T,T,F)
+print("This is my logical vector:")
+print(logical_vector)
+print("")
+
+# Factor
+# Note the "levels" when you print them
+factor_vector <- as.factor(c("Toronto","Toronto","Montreal","Montreal","Ottawa","Montreal","Toronto","Montreal"))
+print("This is my factor vector:")
+print(factor_vector)
+print("")
+
+# Examine the levels of a factor
+levels(factor_vector)
+
+as.numeric(factor_vector) # Factors have an underlying number related to their label
+as.numeric(character_vector) # Characters do not
+```
+
+We can also convert one type of variable to another, if it is appropriate
+
+```{r Convert variable types}
+character_of_numbers <- c("1","2","3","4")
+converted_characters <- as.numeric(character_of_numbers)
+print(character_of_numbers)
+print(converted_characters)
+```
+
+Lists can contain multiple variable types. Sometimes, you will want to add a row to a data frame. One way is to append a list to it.
+
+```{r Example of a list}
+# This list contains several types of variables
+my_list <- list(1,"2",as.factor("ten"),FALSE)
+# We can look at the structure of the list
+str(my_list)
+
+# Vectors do not support this function
+my_vector <- c(1,"2",as.factor("ten"),FALSE)
+str(my_vector)
+```
+
+Finally, we look at a data frame.
+```{r Example of a data frame}
+# Create vectors that will contain our data
+# We will create the columns
+FirstCol <- c("Toronto","Toronto","Montreal","Halifax","Gatineau","Gatineau","Halifax","Toronto","Vancouver")
+SecondCol <- c(21,24,25,33,20,18,19,20,20)
+ThirdCol <- c("M","F","M","M","F","F","X","F","M")
+
+# Create the data frame
+my_data <- data.frame(FirstCol,SecondCol,ThirdCol)
+
+# These column names are not very informative, so we should change them
+colnames(my_data) # Look at the column names
+
+# Re-assign the column names
+colnames(my_data) <- c("City","Age","Sex")
+
+# Let us select a specific column, in this case Age
+age_vector <- my_data$Age
+print(age_vector)
+
+# Let's add a row of data
+new_row <- list(as.factor("Toronto"),20,"F")
+data_with_new_row <- rbind.data.frame(my_data, new_row)
+```
