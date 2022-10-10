@@ -1,7 +1,7 @@
 ---
 title: "The t-test and hypothesis testing"
 author: "Alex Diaz-Papkovich"
-date: "04/10/2022"
+date: "04/11/2022"
 output: html_document
 ---
 
@@ -87,52 +87,52 @@ t_test_results$statistic # For example, this extracts the t-statistic
 
 As an exercise, extract the t-statistic and p-value you calculated above using `$`
 ```{r t-test exercise 1}
-
+#t_test_results$
 ```
 
 
 Now, try the t-test we did above, but try making the sample size much larger (say, n=1000 or n=10000). Do you notice a difference in the result of a t-test?
 ```{r t-test exercise 2}
-set.seed(20221011) # Seed for reproducibility
-n <-  # Sample size (CHANGE THIS)
+#set.seed(20221011) # Seed for reproducibility
+#n <-  # Sample size (CHANGE THIS)
 
-mu1 <- 0 # Mean of sample 1
-mu2 <- 0.1 # Mean of sample 2
+#mu1 <- 0 # Mean of sample 1
+#mu2 <- 0.1 # Mean of sample 2
 
-sd1 <- 1 # Standard deviation 1
-sd2 <- 1 # Standard deviation 2
+#sd1 <- 1 # Standard deviation 1
+#sd2 <- 1 # Standard deviation 2
 
-ve <- sd1 == sd2
+#ve <- sd1 == sd2
 
 # Generate two samples of of size n of normally-distributed data.
 # Sample x1 has a mean of mu1 and standard deviation sd1
 # Sample x2 has a mean of mu2 and standard deviation sd2
-x1 <- rnorm(n, mu1, sd1)
-x2 <- rnorm(n, mu2, sd2)
+#x1 <- rnorm(n, mu1, sd1)
+#x2 <- rnorm(n, mu2, sd2)
 
-t.test(x1,x2,var.equal = ve)
+#t.test(x1,x2,var.equal = ve)
 ```
 
 Try the t-test again. Make the sample size smaller (say, n=20) but change the means
 ```{r t-test exercise 3}
-set.seed(20221011) # Seed for reproducibility
-n <- 20 # Sample size
+#set.seed(20221011) # Seed for reproducibility
+#n <- 20 # Sample size
 
-mu1 <-  # Mean of sample 1 (CHANGE THIS)
-mu2 <-  # Mean of sample 2 (CHANGE THIS)
+#mu1 <-  # Mean of sample 1 (CHANGE THIS)
+#mu2 <-  # Mean of sample 2 (CHANGE THIS)
 
-sd1 <- 1 # Standard deviation 1
-sd2 <- 1 # Standard deviation 2
+#sd1 <- 1 # Standard deviation 1
+#sd2 <- 1 # Standard deviation 2
 
-ve <- sd1 == sd2
+#ve <- sd1 == sd2
 
 # Generate two samples of of size n of normally-distributed data.
 # Sample x1 has a mean of mu1 and standard deviation sd1
 # Sample x2 has a mean of mu2 and standard deviation sd2
-x1 <- rnorm(n, mu1, sd1)
-x2 <- rnorm(n, mu2, sd2)
+#x1 <- rnorm(n, mu1, sd1)
+#x2 <- rnorm(n, mu2, sd2)
 
-t.test(x1, x2, var.equal = ve)
+#t.test(x1, x2, var.equal = ve)
 ```
 
 
@@ -190,8 +190,17 @@ We now have a significant result. What else can we say? Let's use `$` to examine
 results_aov$coefficients
 ```
 
-These 
+These coefficients show us what our results are relative to Group A.
 
+We can also use `plot` to see what our residuals look like.
+```{r Plotting residuals of an ANOVA model}
+plot(results_aov)
+```
+
+```
+(Intercept)      groupB      groupC 
+  25.382285    4.521143   -4.900450 
+```
 
 ### ANOVA exercises
 
