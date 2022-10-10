@@ -1,7 +1,7 @@
 ---
 title: "R concepts"
 author: "Alex Diaz-Papkovich"
-date: "04/10/2022"
+date: "04/11/2022"
 output: html_document
 ---
 
@@ -105,4 +105,32 @@ print(age_vector)
 # Let's add a row of data
 new_row <- list(as.factor("Toronto"),20,"F")
 data_with_new_row <- rbind.data.frame(my_data, new_row)
+```
+
+### Exercises
+
+Exercise 1: Create a data frame from the vectors provided. Name the columns "age", "sex", "location"
+
+```{r Exercise 1}
+
+v1 <- c("20","27","26","24","27","18","22","23","24","29")
+v2 <- c("M","M","F","F","M","M","F","F","M","F")
+v3 <- c("Ottawa","Ottawa","Montreal","Vancouver","Toronto","Halifax","Toronto","Calgary","Montreal","Toronto")
+
+```
+
+Exercise 2: Convert the columns for age, sex, and location to `numeric`,`factor`, and `factor`, respectively.
+
+```{r Exercise 2}
+```
+
+Exercise 3: Half of the individuals have been assigned a treatment, and another half a placebo. Add a column of `logical` values called "treatment" using `cbind` or `cbind.data.frame`.
+
+```{r Exercise 3}
+v4 <- c(rep(TRUE,5), rep(FALSE,5))
+```
+
+Exercise 4: Add an observation to your data. (Optional)
+
+```{r Optional exercise 4}
 ```

@@ -1,0 +1,204 @@
+---
+title: "The t-test and hypothesis testing"
+author: "Alex Diaz-Papkovich"
+date: "04/10/2022"
+output: html_document
+---
+
+## Hypothesis testing
+### The t-test
+
+```{r A basic example of the t-test}
+set.seed(20221011) # Seed for reproducibility
+n <- 100 # Sample size
+
+mu1 <- 0 # Mean of sample 1
+mu2 <- 0.1 # Mean of sample 2
+
+sd1 <- 1 # Standard deviation 1
+sd2 <- 1 # Standard deviation 2
+
+# Generate two samples of of size n of normally-distributed data.
+# Sample x1 has a mean of mu1 and standard deviation sd1
+# Sample x2 has a mean of mu2 and standard deviation sd2
+x1 <- rnorm(n, mu1, sd1)
+x2 <- rnorm(n, mu2, sd2)
+```
+
+There are many ways to look at our data. Two examples are:
+1. Density plots
+2. Box plots
+
+```{r Looking at your data with a density plot}
+# First look at your data
+# We draw density plots to see if our data are different
+# Overlay the two plots
+plot(density(x1), xlim=c(-5,5), ylim=c(0,0.5), col = 1, lty = 2, main = "Comparing two population means")
+abline(v=mu1, col=1, lty = 2)
+lines(density(x2), col = 3, lty = 4)
+abline(v=mu2, col=3, lty = 4)
+```
+
+
+
+```{r Looking at your data with box plots}
+# The boxplot() function requires a data frame
+# We'll put our data into a data frame with one column representing the random data and the other representing the group label
+df <- data.frame(c(x1,x2),
+                    c(rep(1,length(x1)), rep(2,length(x2))))
+colnames(df) <- c("value","group")
+boxplot(value ~ group, data = df)
+```
+
+```{r Carrying out a t-test}
+# Now run a t-test comparing the two means. 
+# Do you reject your null hypothesis?
+# How does it change if you change n or mu1 or mu2?
+
+# The t.test() function has several parameters
+# If we put in two vectors, we can compare them
+t.test(x1, x2) 
+```
+```{r More t-test parameters}
+# We can get more degrees of freedom with an equal-variance t-test (though it doesn't really matter once n is around 30+)
+# This is a logical variable that returns whether the standard deviations of our two samples are equal
+# If they are, it returns true
+# Try putting sd1==sd2 into the console and seeing what it returns!
+ve <- sd1 == sd2
+
+t.test(x1,x2,var.equal = ve)
+```
+
+```{r One-sided t-test}
+# For a one-sided t-test of whether a value is greater than zero, just use one parameter:
+t.test(x2)
+t.test(x2, alternative = c("greater")) # or specify "greater"
+```
+
+We can retrieve relevant values by storing them in an R object and using `$` to extract them.
+```{r Storing and retrieving results}
+t_test_results <- t.test(x1, x2)
+
+names(t_test_results) # This will tell you what is store in the t_test_results object
+t_test_results$statistic # For example, this extracts the t-statistic
+```
+
+### t-test exercises
+
+As an exercise, extract the t-statistic and p-value you calculated above using `$`
+```{r t-test exercise 1}
+
+```
+
+
+Now, try the t-test we did above, but try making the sample size much larger (say, n=1000 or n=10000). Do you notice a difference in the result of a t-test?
+```{r t-test exercise 2}
+set.seed(20221011) # Seed for reproducibility
+n <-  # Sample size (CHANGE THIS)
+
+mu1 <- 0 # Mean of sample 1
+mu2 <- 0.1 # Mean of sample 2
+
+sd1 <- 1 # Standard deviation 1
+sd2 <- 1 # Standard deviation 2
+
+ve <- sd1 == sd2
+
+# Generate two samples of of size n of normally-distributed data.
+# Sample x1 has a mean of mu1 and standard deviation sd1
+# Sample x2 has a mean of mu2 and standard deviation sd2
+x1 <- rnorm(n, mu1, sd1)
+x2 <- rnorm(n, mu2, sd2)
+
+t.test(x1,x2,var.equal = ve)
+```
+
+Try the t-test again. Make the sample size smaller (say, n=20) but change the means
+```{r t-test exercise 3}
+set.seed(20221011) # Seed for reproducibility
+n <- 20 # Sample size
+
+mu1 <-  # Mean of sample 1 (CHANGE THIS)
+mu2 <-  # Mean of sample 2 (CHANGE THIS)
+
+sd1 <- 1 # Standard deviation 1
+sd2 <- 1 # Standard deviation 2
+
+ve <- sd1 == sd2
+
+# Generate two samples of of size n of normally-distributed data.
+# Sample x1 has a mean of mu1 and standard deviation sd1
+# Sample x2 has a mean of mu2 and standard deviation sd2
+x1 <- rnorm(n, mu1, sd1)
+x2 <- rnorm(n, mu2, sd2)
+
+t.test(x1, x2, var.equal = ve)
+```
+
+
+
+### ANOVA and the F-test
+
+What if the data have more than two groups? This leads naturally into Analysis of Variance (ANOVA).
+
+We will create three "populations" with a measurement between them. These three groups will have different means to ensure that they give a statistically significant result.
+
+```{r Create three artificial populations}
+set.seed(20221011)
+
+# Our artificial data will have three different means
+m1 <- rnorm(30, mean = 25, sd = 5)
+m2 <- rnorm(30, mean = 30, sd = 6)
+m3 <- rnorm(30, mean = 22, sd = 7)
+
+ms <- c(m1, m2, m3) # Combine our three measures into one vector
+
+# Our vector of group labels A, B, and C
+ls <- as.factor(c(rep("A",30),rep("B",30),rep("C",30)))
+
+# Make it into a data frame
+df_anova <- data.frame(ms, ls)
+colnames(df_anova) <- c("measure","group")
+```
+
+First, we should visualize our data. We can use a boxplot to compare all the populations against each other.
+
+```{r Visualize the three populations}
+boxplot(measure ~ group, data = df_anova)
+```
+
+These groups certainly look different, but we should run an ANOVA just in case. We'll use the `aov` command. The command takes the formula `y ~ x` as an input, where `y` is the variable we are measuring and `x` is the grouping.
+
+```{r Run the ANOVA}
+# Run the ANOVA
+results_aov <- aov(measure ~ group, data = df_anova)
+
+# Call the results of the ANOVA
+cat("---Printing results of ANOVA---")
+results_aov
+
+# Print the summary
+cat("\n\n") # blank lines for spacing
+cat("---Printing summary---")
+cat("\n\n")
+summary(results_aov)
+```
+
+We now have a significant result. What else can we say? Let's use `$` to examine the ANOVA object:
+
+```{r Look closer at the ANOVA}
+results_aov$coefficients
+```
+
+These 
+
+
+### ANOVA exercises
+
+```{r ANOVA exercise 1}
+
+```
+
+
+
+
