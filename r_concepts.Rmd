@@ -1,5 +1,5 @@
 ---
-title: "R concepts"
+title: "R concepts, MiCM Fall 2022 Workshop"
 author: "Alex Diaz-Papkovich"
 date: "04/11/2022"
 output: html_document
@@ -29,28 +29,20 @@ We will explore the main types of variables:
 ```{r The multiple types of variables}
 # Numeric
 numeric_vector <- c(1,2,3,4,5)
-print("This is my numeric vector:")
 print(numeric_vector)
-print("")
 
 # Character
 character_vector <- c("one","one","three","four","five")
-print("This is my character vector:")
 print(character_vector)
-print("")
 
 # Logical
 logical_vector <- c(T,F,T,T,F)
-print("This is my logical vector:")
 print(logical_vector)
-print("")
 
 # Factor
 # Note the "levels" when you print them
 factor_vector <- as.factor(c("Toronto","Toronto","Montreal","Montreal","Ottawa","Montreal","Toronto","Montreal"))
-print("This is my factor vector:")
 print(factor_vector)
-print("")
 
 # Examine the levels of a factor
 levels(factor_vector)

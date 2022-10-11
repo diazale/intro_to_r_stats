@@ -1,5 +1,5 @@
 ---
-title: "The t-test and hypothesis testing"
+title: "The t-test and hypothesis testing, MiCM Fall 2022 Workshop"
 author: "Alex Diaz-Papkovich"
 date: "04/11/2022"
 output: html_document
@@ -174,13 +174,11 @@ These groups certainly look different, but we should run an ANOVA just in case. 
 results_aov <- aov(measure ~ group, data = df_anova)
 
 # Call the results of the ANOVA
-cat("---Printing results of ANOVA---")
+print("---Printing results of ANOVA---")
 results_aov
 
 # Print the summary
-cat("\n\n") # blank lines for spacing
-cat("---Printing summary---")
-cat("\n\n")
+print("---Printing summary---")
 summary(results_aov)
 ```
 
@@ -204,10 +202,18 @@ plot(results_aov)
 
 ### ANOVA exercises
 
+Load the base R data `PlantGroup` using the command `data("PlantGrowth")`. Visualize the groups using a boxplot and run an ANOVA on them. Extract the coefficients using `$`.
+
 ```{r ANOVA exercise 1}
+data("PlantGrowth") # Load the data (it may take a second)
 
 ```
 
+Run the `TukeyHSD()` command on the ANOVA you just created. Where are the differences in the model?
 
+```{r ANOVA exercise 2}
+# TukeyHSD(...)
+```
 
+For two- and three-way ANOVA models, there are good examples at: https://www.datanovia.com/en/lessons/anova-in-r/. They require the `datarium` package.
 
